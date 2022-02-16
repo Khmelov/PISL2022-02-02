@@ -126,41 +126,34 @@ public class A_Huffman {
         Map<Character, Integer> count = new HashMap<>();
         //1. переберем все символы по очереди и рассчитаем их частоту в Map count
             //для каждого символа добавим 1 если его в карте еще нет или инкремент если есть.
-        for(char symbol : s.toCharArray()) {
-            if(count.containsKey(symbol)) {
-                count.replace(symbol, count.get(symbol) + 1);
-            } else {
-                count.put(symbol, 1);
-            }
+        for (int i = 0; i < s.length(); i++) {
+            if (!count.containsKey(s.charAt(i))) count.put(s.charAt(i), 1);
+            else count.replace(s.charAt(i), count.get(s.charAt(i)) + 1);
         }
 
         //2. перенесем все символы в приоритетную очередь в виде листьев
         PriorityQueue<Node> priorityQueue = new PriorityQueue<>();
-        for (Map.Entry<Character, Integer> entry : count.entrySet()) {
-            priorityQueue.add(new LeafNode(entry.getValue(), entry.getKey()));
-        }
+        for (Map.Entry<Character, Integer> entry : count.entrySet()) priorityQueue.add(new LeafNode(entry.getValue(), entry.getKey()));
+
 
         //3. вынимая по два узла из очереди (для сборки родителя)
         //и возвращая этого родителя обратно в очередь
         //построим дерево кодирования Хаффмана.
         //У родителя частоты детей складываются.
-        while(priorityQueue.size() > 1) {
-            Node child1 = priorityQueue.poll();
-            Node child2 = priorityQueue.poll();
-            Node parent = new InternalNode(child1, child2);
-            priorityQueue.add(parent);
+
+        while (priorityQueue.size() > 1) {
+            Node n1 = priorityQueue.poll();
+            Node n2 = priorityQueue.poll();
+            priorityQueue.add(new InternalNode(n1, n2));
         }
 
         //4. последний из родителей будет корнем этого дерева
         //это будет последний и единственный элемент оставшийся в очереди priorityQueue.
         StringBuilder sb = new StringBuilder();
-        if (priorityQueue.peek() != null) {
-            priorityQueue.peek().fillCodes("");
-            for(char symbol : s.toCharArray()) {
-                sb.append(codes.get(symbol));
-            }
-        }
 
+        priorityQueue.peek().fillCodes("");
+        for (int i = 0; i < s.length(); i++) sb.append(codes.get(s.charAt(i)));
+        
         return sb.toString();
         //01001100100111
         //01001100100111
