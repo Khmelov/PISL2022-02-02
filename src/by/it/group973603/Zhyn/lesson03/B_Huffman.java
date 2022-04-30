@@ -2,6 +2,8 @@ package by.it.group973603.Zhyn.lesson03;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 // Lesson 3. B_Huffman.
@@ -46,14 +48,29 @@ public class B_Huffman {
         StringBuilder result=new StringBuilder();
         //прочитаем строку для кодирования из тестового файла
         Scanner scanner = new Scanner(file);
-        Integer count = scanner.nextInt();
-        Integer length = scanner.nextInt();
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! НАЧАЛО ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
         //тут запишите ваше решение
-
-
-
-
+        String line, encodedStr = "";
+        String[] dividedLine;
+        Map<String, String> symbols = new HashMap<>();
+        while (scanner.hasNextLine()) {
+            line = scanner.nextLine();
+            if (line.contains(":")) {
+                dividedLine = line.split(": ");
+                symbols.put(dividedLine[0], dividedLine[1]);
+            }
+            else {
+                encodedStr = line;
+            }
+        }
+        while (encodedStr.length() > 0) {
+            for (Map.Entry entry : symbols.entrySet()) {
+                if (encodedStr.startsWith((String)entry.getValue())) {
+                    result.append(entry.getKey());
+                    encodedStr = encodedStr.substring(((String) entry.getValue()).length());
+                }
+            }
+        }
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! КОНЕЦ ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
         return result.toString(); //01001100100111
     }

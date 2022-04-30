@@ -59,36 +59,6 @@ public class A_QSort {
         }
     }
 
-//    private static void quickSort(Segment arr[], int from, int to) {
-//        if (arr.length == 1) return;
-//            int divideIndex = partition(arr, from, to);
-//            quickSort(arr, from, divideIndex - 1);
-//            quickSort(arr, divideIndex, to);
-//    }
-//
-//    private static int partition(Segment arr[], int from, int to) {
-//        int rightIndex = to, leftIndex = from, pivot = (from + to) / 2;
-//
-//        while (leftIndex <= rightIndex) {
-//            while (arr[leftIndex].start < arr[pivot].start) {
-//                leftIndex++;
-//                System.out.println(leftIndex);
-//            }
-//            while (arr[rightIndex].start > arr[pivot].start) {
-//                rightIndex--;
-//            }
-//
-//            if (leftIndex < rightIndex) {
-//                Segment tmp = arr[leftIndex];
-//                arr[leftIndex] = arr[rightIndex];
-//                arr[rightIndex] = tmp;
-//                leftIndex++;
-//                rightIndex--;
-//            }
-//        }
-//        return leftIndex;
-//    }
-
     public static void quickSort(Segment[] arr, int leftBorder, int rightBorder) {
         int leftMarker = leftBorder;
         int rightMarker = rightBorder;
@@ -100,15 +70,13 @@ public class A_QSort {
             while (arr[rightMarker].compareTo(pivot) == -1) {
                 rightMarker--;
             }
-            if (leftMarker <= rightMarker) {
-                if (leftMarker < rightMarker) {
-                    Segment tmp = arr[leftMarker];
-                    arr[leftMarker] = arr[rightMarker];
-                    arr[rightMarker] = tmp;
-                }
+
+                Segment tmp = arr[leftMarker];
+                arr[leftMarker] = arr[rightMarker];
+                arr[rightMarker] = tmp;
                 leftMarker++;
                 rightMarker--;
-            }
+
         } while (leftMarker <= rightMarker);
 
         if (leftMarker < rightBorder) {
